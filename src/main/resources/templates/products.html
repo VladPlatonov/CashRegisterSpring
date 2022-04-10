@@ -7,37 +7,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 </head>
 <body>
-<nav class="main-navigation">
-    <ul class="nav-list">
-        <th:block th:if="${user}">
-            <th:block th:if="${user.getUserRole().toString()=='[ADMIN]' || user.getUserRole().toString()=='[SENIOR_CASHIER]'|| user.getUserRole().toString()=='[CASHIER]' || user.getUserRole().toString()=='[MERCHANT]'}">
-                <li class="nav-list-item">
-                    <a href="/admin" class="nav-link"> <p th:text="#{menu.admin}"></p> </a>
-                </li>
-            </th:block>
-        </th:block>
-        <li class="nav-list-item">
-            <a href="/" class="nav-link"><p th:text="#{menu.home}"></p></a>
-        </li>
-        <th:block th:if="${user}">
-            <li class="nav-list-item">
-                <a href="/logout" class="nav-link"><p th:text="#{menu.logout}"></p></a>
-            </li>
-        </th:block>
-        <th:block th:unless="${user}">
-            <li class="nav-list-item">
-                <a href="/login" class="nav-link"><p th:text="#{menu.login}"></p></a>
-            </li>
-            <li class="nav-list-item">
-                <a href="/registration" class="nav-link"><p th:text="#{menu.signup}"></p></a>
-            </li>
-        </th:block >
-        <li  class="nav-list-item" th:switch= "#{lang}" >
-            <a th:case="'en'" href="?lang=ua" class="nav-link"><p th:text="#{menu.ukraine}"></p></span></a>
-            <a th:case="'ua'"  href="?lang=en" class="nav-link"><p th:text="#{menu.english}"></p></span></a>
-        </li>
-    </ul>
-</nav>
+<div th:insert="~{fragments/navbar.html :: navbar}"></div>
 
 <div class="fadeIn first">
     <div class="container-fluid" style="font-size: 20px">
