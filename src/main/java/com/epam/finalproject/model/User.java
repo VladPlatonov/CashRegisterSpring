@@ -1,6 +1,8 @@
 package com.epam.finalproject.model;
 
+import lombok.Builder;
 import lombok.Data;
+import lombok.Singular;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 

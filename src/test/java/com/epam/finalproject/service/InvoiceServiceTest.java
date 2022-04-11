@@ -15,11 +15,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collections;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -31,11 +34,26 @@ public class InvoiceServiceTest {
     @MockBean
     InvoiceRepository invoiceRepository;
 
+    Invoice invoice;
+
+    @BeforeAll
+    public void setUp(){
+        invoice.setInvoiceId(1L);
+        invoice.setDate(new Timestamp(System.currentTimeMillis()));
+        invoice.setStatus(Collections.singleton(InvoiceStatus.CREATED));
+        invoice.setInvoiceCode(2L);
+    }
 
     @Test
-    public void createInvoice() {
+    public void testFindById() {
+            when(invoiceRepository.findById(1L)).thenReturn(java.util.Optional.ofNullable(invoice));
+            assertEquals(invoice, invoiceService.findById(1L));
+    }
 
-
+    @Test
+    public void testDeleteInvoice() {
+        invoiceService.deleteById(1L);
+        verify(invoiceRepository).deleteById(1L);
     }
 
 }
