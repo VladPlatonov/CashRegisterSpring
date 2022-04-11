@@ -1,14 +1,8 @@
 <!DOCTYPE html>
 <html  xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset = "ISO-8859-1"/>
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-</head>
+<div th:insert="~{fragments/head.html :: head}"></div>
 <body>
 <div th:insert="~{fragments/navbar.html :: navbar}"></div>
-
 <div class="fadeIn first">
     <div class="container-fluid" style="font-size: 20px">
         <div class="container">
@@ -76,12 +70,9 @@
         </div>
     </div>
 </div>
-
 </body>
 <div th:insert="~{fragments/style.html :: style}"></div>
 </html>
-
-
 <style>
 
     .colform2 {

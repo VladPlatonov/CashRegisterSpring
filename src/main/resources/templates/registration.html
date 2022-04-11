@@ -1,24 +1,13 @@
 <!DOCTYPE html>
 <html  xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset = "ISO-8859-1"/>
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-</head>
+<div th:insert="~{fragments/head.html :: head}"></div>
 <body>
 <div th:insert="~{fragments/navbar.html :: navbar}"></div>
-
 <div class="wrapper fadeInDown">
     <div id="formContent">
-
-        <!-- Tabs Titles -->
         <div class="fadeIn first">
             <h2 th:text="#{registration.top}"></h2>
         </div>
-
-
-        <!-- Login Form -->
         <form name="registration" method="post" th:action="@{/registration}" th:object="${form}" >
             <th:block th:if="${error}"><h6 style="color: red" th:text="#{error.login}">  </h6></th:block>
             <input type="text" th:field="*{username}"  class="fadeIn second" required th:placeholder="#{login.log}">
@@ -27,11 +16,8 @@
             <input type="text" th:field="*{surname}"class="fadeIn second" required th:placeholder="#{registration.surname}">
             <input type="submit" class="fadeIn fourth" th:value="#{menu.signup}">
         </form>
-
     </div>
 </div>
-
-
 </body>
 <div th:insert="~{fragments/style.html :: style}"></div>
 </html>

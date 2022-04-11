@@ -1,23 +1,14 @@
 <!DOCTYPE html>
 <html  xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset = "ISO-8859-1"/>
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-</head>
+<div th:insert="~{fragments/head.html :: head}"></div>
 <body>
 <div th:insert="~{fragments/navbar.html :: navbar}"></div>
-
 <div class="wrapper fadeInDown">
     <div id="formContent">
-
         <!-- Tabs Titles -->
         <div class="fadeIn first">
             <h2 th:text="#{editProduct.top}"></h2>
         </div>
-
-
         <!-- Login Form -->
         <form name="addProduct" method="post" th:action="@{/editProduct}" th:object="${product}" >
             <input type="text" hidden th:field="*{productId}" th:value="*{productId}">
@@ -34,10 +25,8 @@
             <input type="submit" name="" class="fadeIn fourth" th:value="#{btn.save}">
             <a class="btn btn-danger" role="button" href="/products" th:text="#{btn.cancel}"></a>
         </form>
-
     </div>
 </div>
-
 </body>
 <div th:insert="~{fragments/style.html :: style}"></div>
 </html>

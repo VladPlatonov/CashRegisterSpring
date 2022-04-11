@@ -1,14 +1,8 @@
 <!DOCTYPE html>
 <html  xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset = "ISO-8859-1"/>
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-</head>
+<div th:insert="~{fragments/head.html :: head}"></div>
 <body>
 <div th:insert="~{fragments/navbar.html :: navbar}"></div>
-
 <div class="fadeIn first">
     <div class="container-fluid" style="font-size: 20px">
         <div class="container">
@@ -53,7 +47,6 @@
                                <input type="text" hidden  th:name="id" th:value="${user.userId} ">
                                 <button type="submit" name="action" value="update" class="btn btn-primary" th:text="#{btn.edit}" ></button>
                                 <button type="submit" name="action" value="delete" class="btn btn-danger" th:text="#{btn.del}" ></button>
-
                         </td>
                     </form>
                     </tr>
@@ -74,7 +67,6 @@
         </div>
     </div>
 </div>
-
 </body>
 <div th:insert="~{fragments/style.html :: style}"></div>
 </html>
