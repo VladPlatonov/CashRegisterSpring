@@ -7,6 +7,8 @@ import com.epam.finalproject.model.Product;
 import com.epam.finalproject.repository.InvoiceRepository;
 import com.epam.finalproject.repository.OrderRepository;
 import com.epam.finalproject.repository.ProductRepository;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -16,8 +18,10 @@ import javax.transaction.Transactional;
 @Service
 public class OrderService {
 
+    private static final Logger logger = LogManager.getLogger(OrderService.class);
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
+
 
     OrderService(OrderRepository orderRepository, ProductRepository productRepository){
         this.orderRepository = orderRepository;
@@ -28,6 +32,11 @@ public class OrderService {
         orderRepository.save(order);
     }
 
+    /**
+     * This method calculates the amount of all goods in the invoice
+     * @param id InvoiceId
+     * @return sum
+     */
     public Integer totalInvoice(Long id){
         return orderRepository.findAllByInvoice_InvoiceId(id).stream()
                 .map(Order::getOrderValue)
@@ -37,6 +46,8 @@ public class OrderService {
     public Page<Order> findAllByInvoiceId(Long id, Pageable pageable){
         return orderRepository.findAllByInvoice_InvoiceId(id,pageable);
     }
+
+
 
     @Transactional
     public void addOrder(Invoice invoice, Product product, Integer quantity){
@@ -48,7 +59,9 @@ public class OrderService {
         productRepository.save(product);
         order.setOrderValue(product.getCost()*quantity);
         save(order);
+        logger.info("Add order");
     }
+
     @Transactional
     public void deleteOrder(Long orderId){
         Order order = orderRepository.getById(orderId);
@@ -56,6 +69,7 @@ public class OrderService {
         product.setQuantity(order.getQuantity() + order.getProduct().getQuantity());
         productRepository.save(product);
         orderRepository.deleteById(order.getOrderId());
+        logger.info("Delete order");
     }
 
     public Order findById(Long orderId){
@@ -63,6 +77,13 @@ public class OrderService {
     }
 
 
+    /**
+     * update quantity order
+     * If the number is increased the quantity product in the warehouse decreases
+     * Else quantity product in the warehouse increases
+     * @param order
+     * @param quantity
+     */
     @Transactional
     public void  updateQuantityOrder(Order order, Integer quantity){
         Product product = order.getProduct();
@@ -71,5 +92,6 @@ public class OrderService {
         order.setQuantity(quantity);
         order.setOrderValue(order.getProduct().getCost()*quantity);
         orderRepository.save(order);
+        logger.info("Update order");
     }
 }

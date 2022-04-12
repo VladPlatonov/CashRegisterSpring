@@ -4,6 +4,8 @@ package com.epam.finalproject.service;
 import com.epam.finalproject.model.*;
 import com.epam.finalproject.repository.InvoiceRepository;
 import com.epam.finalproject.util.CreateInvoiceForm;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -17,12 +19,12 @@ import java.util.List;
 @Service
 public class InvoiceService {
 
+    private static final Logger logger = LogManager.getLogger(InvoiceService.class);
+
     private final InvoiceRepository invoiceRepository;
     private final ProductService productService;
-    private final OrderService orderService;
 
-    InvoiceService(InvoiceRepository invoiceRepository,ProductService productService, OrderService orderService){
-        this.orderService = orderService;
+    InvoiceService(InvoiceRepository invoiceRepository,ProductService productService){
         this.productService = productService;
         this.invoiceRepository = invoiceRepository;
 
@@ -33,6 +35,13 @@ public class InvoiceService {
     }
 
 
+
+    /**
+     * Create invoice
+     * @param products selected products to create
+     * @param InvoiceCode generated code
+     * @param user user who created
+     */
     @Transactional
     public void createInvoice(List <CreateInvoiceForm> products, Long InvoiceCode, User user) {
         Timestamp stamp = new Timestamp(System.currentTimeMillis());
@@ -58,13 +67,21 @@ public class InvoiceService {
         });
         invoice.setOrders(orderList);
         invoiceRepository.save(invoice);
+        logger.info("Create invoice invoiceCode:" + InvoiceCode);
     }
 
     public void finishInvoice(Invoice invoice) {
         invoice.getStatus().clear();
         invoice.getStatus().add(InvoiceStatus.FINISHED);
         invoiceRepository.save(invoice);
+        logger.info("Finish invoice invoiceId:" + invoice.getInvoiceId());
     }
+
+    /**
+     * After cancelled invoice
+     * Update quantity products in warehouse
+     * @param invoice
+     */
     @Transactional
     public void cancelInvoice(Invoice invoice) {
         invoice.getOrders()
@@ -76,6 +93,7 @@ public class InvoiceService {
         invoice.getStatus().clear();
         invoice.getStatus().add(InvoiceStatus.CANCELLED);
         invoiceRepository.save(invoice);
+        logger.info("Cancel invoice invoiceId: "+ invoice.getInvoiceId() );
     }
 
 
